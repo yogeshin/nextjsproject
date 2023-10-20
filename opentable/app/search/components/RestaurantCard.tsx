@@ -1,8 +1,25 @@
+import { PRICE } from "@prisma/client";
 import Link from "next/link";
+
+interface Restaurant {    
+    id: number;
+    name: string;
+    main_image: string;
+    images: string[];
+    description: string;
+    open_time: string;
+    close_time: string;
+    slug: string;
+    price: PRICE;
+    location_id: number;
+    cuisine_id: number;
+    created_at: Date;
+    updated_at: Date;    
+}
 
 export default function RestaurantCard() {
     return (
-        <div className="border-b flex pb-5">
+        <div className="border-b flex pb-5 ml-4">
             <img
                 src="https://images.otstatic.com/prod1/49153814/2/medium.jpg"
                 alt=""
