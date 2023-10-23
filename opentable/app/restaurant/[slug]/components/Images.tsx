@@ -1,5 +1,3 @@
-import { ImageResponse } from "next/dist/compiled/@vercel/og";
-
 export default function Images({images}: {images:string[]}) {
     return (
         <div>

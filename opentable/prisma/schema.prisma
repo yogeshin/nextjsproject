@@ -17,13 +17,14 @@ model Restaurant {
   close_time  String
   slug        String   @unique
   price       PRICE
+  items       Item[]
   location_id Int
+  location    Location @relation(fields: [location_id], references: [id])
   cuisine_id  Int
+  cuisine     Cuisine  @relation(fields: [cuisine_id], references: [id])
+  reviews     Review[]
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
-  items       Item[]
-  cuisine     Cuisine  @relation(fields: [cuisine_id], references: [id])
-  location    Location @relation(fields: [location_id], references: [id])
 }
 
 model Item {
@@ -32,25 +33,52 @@ model Item {
   price         String
   description   String
   restaurant_id Int
+  restaurant    Restaurant @relation(fields: [restaurant_id], references: [id])
   created_at    DateTime   @default(now())
   updated_at    DateTime   @updatedAt
-  restaurant    Restaurant @relation(fields: [restaurant_id], references: [id])
 }
 
 model Location {
-  id         Int          @id @default(autoincrement())
-  name       String
-  created_at DateTime     @default(now())
-  updated_at DateTime     @updatedAt
-  Restaurant Restaurant[]
+  id          Int          @id @default(autoincrement())
+  name        String
+  restaurants Restaurant[]
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @updatedAt
 }
 
 model Cuisine {
-  id         Int          @id @default(autoincrement())
-  name       String
-  created_at DateTime     @default(now())
-  updated_at DateTime     @updatedAt
-  Restaurant Restaurant[]
+  id          Int          @id @default(autoincrement())
+  name        String
+  restaurants Restaurant[]
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @updatedAt
+}
+
+model Review {
+  id            Int        @id @default(autoincrement())
+  first_name    String
+  last_name     String
+  text          String
+  rating        Float
+  restaurant_id Int
+  restaurant    Restaurant @relation(fields: [restaurant_id], references: [id])
+  user_id       Int
+  user          User       @relation(fields: [user_id], references: [id])
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  first_name String
+  last_name  String
+  city       String
+  password   String
+  email      String   @unique
+  phone      String
+  reviews    Review[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
 enum PRICE {
